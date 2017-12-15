@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>xhr_BussLoger</groupId>
+    <artifactId>xhr-BussLoger-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>xhr_BussLoger-parent</name>
+    <description>管理业务日志的总pom工程</description>
+    <modules>
+        <module>xhr-BussLoger-Core</module>
+        <module>xhr-BussLoger</module>
+        <module>xhr-BussLoger-Service</module>
+    </modules>
+
+
+
+</project>
