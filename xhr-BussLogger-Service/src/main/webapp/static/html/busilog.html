@@ -1,0 +1,155 @@
+<div id="busslog" class="u-container-fluid u-widget-bg busslog">
+  <div class="u-row">
+        <div class="u-col-12">
+            <div class="u-widget">
+                <div class="header-css">
+                        <h3 class="u-widget-title pull-left">业务日志</h3>
+                        	<button data-role="returnbtn" class="u-button u-button-accent whitebutton">返回</button>
+                             <span class="log-search-btn u-right u-input-label" id="condition-toggle"><span>高级搜索</span><i style="padding-left: 5px;display: inline-block;vertical-align: middle;font-size: 20px;" class="iconfont icon-arrow-down"></i></span>
+                </div>
+            </div>
+         </div>
+    </div>
+          <div class="u-row u-border-top u-not-visible p-v-md searchCon-css" id="condition-row" style="margin-bottom: 15px;">
+                    <div class="u-col-12">
+                        <div class="u-container-fluid">
+                            <div class="u-row">
+                                <div class="u-col-1 u-col-sm-2" style="padding-right: 0px;">
+                                    <label class="u-input-label ue-label right">操作人:</label>
+                                </div>
+                                <div class="u-col-2 u-col-sm-4 m-b-sm">
+				                    <div id="userrefer" data-role="user-refer">
+					                        <div class="u-input-group u-has-feedback" style="width: 100%;">
+				                            <input id="operuser" type="text" class="u-form-control searchinput"/>
+				                            <span class="u-form-control-feedback uf uf-listwithdots"></span>
+				                           </div>
+				                    </div>
+                                </div>
+                                <div class="u-col-1 u-col-sm-2" style="padding-right: 0px;">
+                                    <label class="u-input-label ue-label right">日志分类:</label>
+                                </div>
+                                <div class="u-col-2 u-col-sm-4 m-b-sm">
+					                  <div class="u-combo" id="logkindcombo">
+					                        <div class="u-input-group u-has-feedback">
+					                            <input id="logcategory" class="u-form-control searchinput"/>
+					                            <span class="u-form-control-feedback uf uf-anglearrowdown" data-role="combo-button"></span>
+					                        </div>
+					                 </div>
+                                </div>
+					             <div class="u-col-1 u-col-sm-2" style="padding-right: 0px;">
+					                 <label class="u-input-label ue-label right">记录日期:</label>
+					             </div>
+					              <div class="u-col-2 u-col-sm-10 m-b-sm">
+										<div class="input-group dateinterval-compent" style="max-width: 530px;">
+											<div id="start_date" style="float: left;max-width: 208px;" class="input-group date form_date fl width-auto" u-meta='{"type":"u-datetime","data":"dateintervalData","field":"startField","endField":"endField"}'>
+												<input id="start" type="text" class="form-control form-control-show-border searchinput" placeholder="请选择日期">
+												<span class="input-group-addon input-group-addon-show"><span class="fa fa-calendar"></span></span>
+											</div>
+										</div>
+								</div>
+								 <div class="u-col-2 u-col-sm-10 m-b-sm" style="padding-left: 0px;">
+										<span class="space-line " style="margin-right: 10px;float:left;">-</span>
+										<div class="input-group dateinterval-compent" style="max-width: 530px;">
+											<div id="end_date" style="float: left;max-width: 208px;" class="input-group date form_date form-databox-btn-area width-auto" u-meta='{"type":"u-datetime","data":"dateintervalData","field":"endField","startField":"startField"}'>
+													<input id="end" type="text" class="form-control form-control-show-border searchinput" placeholder="请选择日期">
+												<span class="input-group-addon input-group-addon-show"><span class="fa fa-calendar"></span></span>
+											</div>
+										</div>
+								</div>
+                            </div>
+                            <div class="u-row search-groupbtn-div " style="margin-top: 10px;">
+                                <div class="u-col-12">
+                                    <button data-role="clearbtn" class="u-button u-button-accent whitebutton u-right search-clearbtn">清空</button>
+                                    <button data-role="searchbtn" class="u-button u-button-primary u-right search-searchbtn bluebutton">检索</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+          </div>
+    <div class="u-row">
+        <div class="u-col-12">
+            <div class="u-widget" style="margin-top: 0px;">
+                    <div class="u-widget-body">
+                        <div>
+                            <table class="u-table ie-table-border" style="width:100%;border-bottom: none;">
+                                <thead>
+                                    <tr>
+                                        <th width="15%">操作人</th>
+                                        <th width="15%">IP地址</th>
+                                        <th width="15%">日志分类</th>
+                                        <th width="15%">记录日期</th>
+                                        <th width="40%">日志内容</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="table-fixedheader-body">
+                            <table id="logtable" class="u-table table-content ie-table-border maintable" style="width:100%;border-bottom: none;">
+                                <tbody data-bind="foreach:{data:listData.rows(), as: 'row', afterAdd: afterAdd}">
+                                    <tr data-bind="attr: {'rowindex': $index}">
+                                        <td width="15%" data-bind="text: row.ref('operuser'),event : {mouseover : tootipShow}"></td>
+                                        <td width="15%" data-bind="text: row.ref('clientip'),event : {mouseover : tootipShow}"></td>
+                                        <td width="15%" data-bind="text: row.ref('logcategory'),event : {mouseover : tootipShow}"></td>
+                                        <td width="15%" data-bind="text: row.ref('logdate'),event : {mouseover : tootipShow}"></td>
+                                        <td width="40%" class="logtd" data-bind="text: row.ref('logcontent')" onclick="logDetailFun(this);">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="paginate-box hide">
+                   			<div id='pagination' class='u-pagination pagination pagination-center'></div>
+                   		</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    	<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-hidden="true" style="overflow-y: hidden;">
+                 <div class="modal-dialog">
+                      <div class="modal-content">
+                          <div class="modal-header" style="padding: 10px;">
+                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                  &times;
+                              </button>
+                              <h4 class="modal-title" id="myModalLabel">选取操作人</h4>
+                          </div>
+                          <div class="modal-body pagination-center" style="height:390px;">
+							<div class="u-input-group">
+							  <input type="text" class="u-form-control user-search-input" placeholder="请输入用户姓名">
+							  <span data-role="userSearchSpan" class="u-input-group-addon user-search-span">搜索</span>
+							</div>
+	                        <div>
+	                            <table class="u-table ie-table-border" style="width:100%;">
+	                                <thead>
+	                                    <tr>
+	                                        <th width="10%" >
+			                                 </th>
+	                                        <th width="45%">操作人编码</th>
+	                                        <th width="45%">操作人姓名</th>
+	                                    </tr>
+	                                </thead>
+	                            </table>
+	                        </div>
+	                        <div class="table-fixedheader-body" style="height:200px;">
+	                            <table id="logtable" class="u-table table-content ie-table-border" style="width:100%;">
+	                                <tbody data-bind="foreach:{data:groupListData.rows(), as: 'row', afterAdd: afterAdd}">
+	                                    <tr>
+	                                        <td width="10%">
+			                                    <label class="u-checkbox only-style" style="margin-top:-25px;margin-left:-1px;" data-bind="click: row.singleSelect, css:{'is-checked': row.selected()}">
+			                                        <input type="checkbox" class="u-checkbox-input">
+			                                        <span class="u-checkbox-label"></span>
+			                                    </label>
+			                                </td>
+	                                        <td width="45%" data-bind="text: row.ref('userCode')"></td>
+	                                        <td width="45%" data-bind="text: row.ref('userName')"></td>
+	                                    </tr>
+	                                </tbody>
+	                            </table>
+	                        </div>
+	                        <div id='user-pagination' class='u-pagination pagination-sm pagination-center'></div>
+	                        <div class="userconfirm-div" style="width: 100%;margin-top: -5px;"><button id="userConfirmBtn" data-role="userConfirmBtn" class="u-button u-button-primary u-right search-searchbtn bluebutton">确定</button></div>
+                          </div>
+                      </div>
+                  </div>
+            </div>
+</div>

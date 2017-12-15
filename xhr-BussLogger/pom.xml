@@ -4,74 +4,89 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>xhr_BussLogger</groupId>
-        <artifactId>xhr-BussLogger-parent</artifactId>
+        <groupId>xhr_BussLoger</groupId>
+        <artifactId>xhr-BussLoger-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>xhr-BussLogger-Core</artifactId>
-    <name>业务日志核心工程</name>
+
+    <artifactId>xhr-BussLoger</artifactId>
+    <name>业务日志组件</name>
     <description>无侵入的跟踪记录业务的活动，真正做到业务逻辑和日志逻辑分离。</description>
     <properties>
-        <!-- groovy版本号 -->
-        <groovy.version>2.2.2</groovy.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- mybatis版本号 -->
+        <mybatis.version>3.3.0</mybatis.version>
         <!-- spring的版本 -->
         <spring.version>4.0.5.RELEASE</spring.version>
-        <!-- aspect的版本 -->
-        <aspect.version>1.7.4</aspect.version>
-        <!-- 日志文件版本 -->
-        <slf4j.version>1.7.8</slf4j.version>
-
-        <!-- 文件拷贝时的编码 -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <!-- 编译时的编码 -->
-        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
     </properties>
+
     <dependencies>
-        <!-- 日志组件 -->
+        <!--依赖业务日志底层框架 -->
         <dependency>
-            <groupId>xhr_BussLogger</groupId>
-            <artifactId>xhr-BussLogger-Core</artifactId>
+            <groupId>xhr_BussLoger</groupId>
+            <artifactId>xhr_BussLoger</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- 依赖groovy的包 -->
         <dependency>
-            <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
-            <version>${groovy.version}</version>
-        </dependency>
-        <!-- spring核心包 -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>${spring.version}</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.8</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
+            <artifactId>spring-web</artifactId>
             <version>${spring.version}</version>
         </dependency>
+        <!-- sqlSessionFactory -->
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
+            <artifactId>spring-jdbc</artifactId>
             <version>${spring.version}</version>
         </dependency>
+        <!-- mybatis核心包 -->
         <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
-            <version>${aspect.version}</version>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>${mybatis.version}</version>
+        </dependency>
+        <!-- mybatis/spring包 sqlSessionFactory使用 -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>1.2.3</version>
         </dependency>
         <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjtools</artifactId>
-            <version>${aspect.version}</version>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
         </dependency>
         <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjweaver</artifactId>
-            <version>${aspect.version}</version>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
         </dependency>
+        <!-- json相关的jar包 -->
+        <dependency>
+            <groupId>net.sf.json-lib</groupId>
+            <artifactId>json-lib</artifactId>
+            <version>2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+            <version>1.9.2</version>
+        </dependency>
+
+        <!--导入Mysql数据库链接jar包 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.38</version>
+        </dependency>
+        <!-- 单元测试 -->
+        <!-- 导入dbcp的jar包，用来配置数据库datasource -->
     </dependencies>
+
     <build>
         <pluginManagement>
             <plugins>
@@ -148,4 +163,5 @@
             </plugins>
         </pluginManagement>
     </build>
+
 </project>

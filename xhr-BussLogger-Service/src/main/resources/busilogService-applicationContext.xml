@@ -1,0 +1,102 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<!-- 自动扫描 -->
+	<context:annotation-config />
+	<context:component-scan base-package="com.yonyou.ifbp.busilog" />
+
+	<!-- 引入配置文件 -->
+	<context:property-placeholder
+		system-properties-mode="OVERRIDE" ignore-unresolvable="true"
+		location="classpath:application.properties" />
+	<!-- 此处需要测试或者开发根据实际环境修改，默认的是获取工作台的用户 -->
+	<!-- com.yonyou.ifbp.busilog.service.impl.BusiLogDefaultUserServiceImpl 默认配置返回用户为空 -->
+	<!--com.yonyou.ifbp.busilog.service.impl.BusiLogWorkbenchUserServiceImpl 
+		工作台用户 -->
+	<!--com.yonyou.ifbp.busilog.service.impl.BusiLogUserCenterServiceImpl 用户中心用户 -->
+	<!-- 
+	<bean id="busiLogUserSevice"
+		class="com.yonyou.ifbp.busilog.service.impl.BusiLogWorkbenchUserServiceImpl"></bean>
+
+	<bean id="userInfoServiceByWorkbench"
+		class="com.yonyou.ifbp.user.service.impl.UserInfoServiceByWorkbench"></bean>
+	<bean id="userInfoServiceByUserCenter"
+		class="com.yonyou.ifbp.user.service.impl.UserInfoServiceByUserCenter"></bean>
+	 -->
+	 
+	<!-- 数据源配置, 使用Tomcat JDBC连接池 -->
+	<bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource"
+		destroy-method="close">
+		<!-- Connection Info -->
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="defaultCatalog" value="${jdbc.catalog}" />
+
+		<!-- Connection Pooling Info -->
+		<property name="maxActive" value="${jdbc.pool.maxActive}" />
+		<property name="maxIdle" value="${jdbc.pool.maxIdle}" />
+		<property name="minIdle" value="${jdbc.pool.minIdle}" />
+		<property name="maxWait" value="${jdbc.pool.maxWait}" />
+		<property name="initialSize" value="${jdbc.pool.initialSize}" />
+
+		<property name="testOnBorrow" value="${jdbc.pool.testOnBorrow}" />
+		<property name="validationInterval" value="${jdbc.pool.validationInterval}" />
+		<property name="testOnReturn" value="${jdbc.pool.testOnReturn}" />
+		<!--mysql,sqlserver使用，oracle使用select 1 from dual -->
+		<property name="validationQuery" value="${jdbc.pool.validationQuery}" />
+
+		<property name="testWhileIdle" value="${jdbc.pool.testWhileIdle}" />
+		<property name="timeBetweenEvictionRunsMillis" value="${jdbc.pool.timeBetweenEvictionRunsMillis}" />
+		<property name="numTestsPerEvictionRun" value="${jdbc.pool.numTestsPerEvictionRun}" />
+
+		<property name="minEvictableIdleTimeMillis" value="${jdbc.pool.minEvictableIdleTimeMillis}" />
+		<property name="removeAbandoned" value="${jdbc.pool.removeAbandoned}" />
+		<property name="removeAbandonedTimeout" value="${jdbc.pool.removeAbandonedTimeout}" />
+	</bean>
+
+	<!--配置动态数据源 -->
+	<bean id="dynamicDataSource" class="com.yonyou.ifbp.dynamicds.ds.DynamicDataSource">
+		<property name="targetDataSources">
+			<map key-type="java.lang.String">
+				<entry key="jdbcDataSource" value-ref="dataSource" />
+			</map>
+		</property>
+		<property name="defaultTargetDataSource" ref="dataSource" />
+		<property name="dsProvider" ref="dsProvider" />
+	</bean>
+
+	<bean id="dsProvider" class="com.yonyou.ifbp.dynamicds.ds.DefaultDataSourceProvider" />
+
+	<!-- spring和MyBatis整合 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="${jdbcDataSource}" />
+		<!-- 自动扫描mapping.xml文件 -->
+		<property name="mapperLocations" value="classpath:com/*/*Mapper.xml"></property>
+	</bean>
+
+	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.yonyou.ifbp.busilog.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="${jdbcDataSource}" />
+	</bean>
+
+</beans>  
