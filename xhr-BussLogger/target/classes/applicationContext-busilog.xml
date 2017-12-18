@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"       
+       xsi:schemaLocation="
+	   		http://www.springframework.org/schema/context
+	   		http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	   		http://www.springframework.org/schema/beans
+	   		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	   		http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	   		http://www.springframework.org/schema/aop
+	   		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+	
+	<!-- 注入日志拦截器 -->
+	<bean id="logInterceptor" class="busilog.BusiLogInterceptor">
+		<property name="threadPoolTaskExecutor" ref="threadPoolTaskExecutor" />
+		<property name="busiLogWriter">
+			<bean class="${businessLogExporter}" />
+		</property>
+	</bean>
+
+	<!-- 加了 proxy-target-class="true"，基于类的代理将被创建 -->
+	<aop:config proxy-target-class="true">
+		<aop:pointcut id="businessBehavior" expression="${pointcut}" />
+		<!-- 定义通知method 指定通知方法名,必须与MyAspectXML中的相同pointcut 指定切点函数-->
+		<aop:aspect id="logAspect" ref="logInterceptor">
+			<aop:after-returning returning="result" method="logAfter" pointcut-ref="businessBehavior" />
+			<aop:after-throwing method="afterThrowing" pointcut-ref="businessBehavior" throwing="error" />
+		</aop:aspect>
+	</aop:config>
+
+	<!-- 异步线程池   -->
+	<bean id="threadPoolTaskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<!-- 核心线程数 -->
+		<property name="corePoolSize" value="${log.threadPool.corePoolSize}" />
+		<!-- 最大线程数 -->
+		<property name="maxPoolSize" value="${log.threadPool.maxPoolSize}" />
+		<!-- 队列最大长度 >=mainExecutor.maxSize -->
+		<property name="queueCapacity" value="${log.threadPool.queueCapacity}" />
+		<property name="keepAliveSeconds" value="${log.threadPool.keepAliveSeconds}" />
+	</bean>
+	
+
+</beans>

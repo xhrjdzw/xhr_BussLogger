@@ -18,8 +18,7 @@
         <spring.version>4.0.5.RELEASE</spring.version>
         <!-- aspect的版本 -->
         <aspect.version>1.7.4</aspect.version>
-        <!-- 日志文件版本 -->
-        <slf4j.version>1.7.8</slf4j.version>
+
 
         <!-- 文件拷贝时的编码 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -28,11 +27,11 @@
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
     </properties>
     <dependencies>
-        <!-- 日志组件 -->
+        <!-- SLF4J -->
         <dependency>
-            <groupId>xhr_BussLogger</groupId>
-            <artifactId>xhr_BussLogger</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.10</version>
         </dependency>
         <!-- 依赖groovy的包 -->
         <dependency>
@@ -70,6 +69,16 @@
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
             <version>${aspect.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+            <version>1.10.2.RELEASE</version>
         </dependency>
     </dependencies>
     <build>

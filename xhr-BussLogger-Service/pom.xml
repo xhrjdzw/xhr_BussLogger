@@ -3,10 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>xhr_BussLogger</groupId>
+        <artifactId>xhr-BussLogger-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
-    <groupId>xhr-BussLoger</groupId>
-    <artifactId>xhr-BussLoger-Service</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>xhr-BussLogger-Core</artifactId>
 
-
+    <name>业务日志核心工程</name>
+    <description>无侵入的跟踪记录业务的活动，真正做到业务逻辑和日志逻辑分离。</description>
 </project>
